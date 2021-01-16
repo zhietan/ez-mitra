@@ -1,0 +1,83 @@
+<ion-header [translucent]="true">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button text="" (click)="back()"></ion-back-button>
+          </ion-buttons>
+          <ion-title *ngIf="!is_lazy" >{{service_type}}</ion-title>
+          <ion-title *ngIf="is_lazy" ><ion-skeleton-text animated style="width: 70%;height: 15px;"></ion-skeleton-text></ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true">
+    <ion-row class="border-bottom">
+        <ion-col size="8">
+            <p class="title-small margin-remove">Nama Klien</p>
+            <p class="title margin-minus margin-remove" *ngIf="!is_lazy">{{nama}}</p>
+            <p class="title margin-minus margin-remove" *ngIf="is_lazy"><ion-skeleton-text animated style="width: 30%;height: 15px;"></ion-skeleton-text></p>
+        </ion-col>
+        <ion-col size="2">
+            <div *ngIf="is_lazy" >
+                <ion-skeleton-text animated style="width: 50px;height: 50px;"></ion-skeleton-text>
+            </div>
+            <div *ngIf="!is_lazy" >
+                <a href="https://api.whatsapp.com/send?phone={{phone}}">
+                    <div class="mail-icon">
+                        <ion-icon class="icon-set" name="mail-outline"></ion-icon>
+                    </div>
+                </a>
+            </div>
+        </ion-col>
+        <ion-col size="2">
+            <div *ngIf="is_lazy" >
+                <ion-skeleton-text animated style="width: 50px;height: 50px;"></ion-skeleton-text>
+            </div>
+            <div *ngIf="!is_lazy" >
+                <a href="tel:{{phone}}">
+                    <div class="call-icon">
+                        <ion-icon class="icon-set" name="call-outline"></ion-icon>
+                    </div>
+                </a>
+            </div>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col size="12">
+            <p class="title-small margin-remove">Status</p>
+            <p class="title margin-minus margin-remove red" *ngIf="!is_lazy">{{status}}</p>
+            <p class="title margin-minus margin-remove red" *ngIf="is_lazy"  ><ion-skeleton-text animated style="width: 60%;height: 15px;"></ion-skeleton-text></p>
+        </ion-col>
+        <ion-col size="12" class="margin-minus">
+            <p class="title-small margin-remove">Tipe Service</p>
+            <p class="title margin-minus margin-remove" *ngIf="!is_lazy" >{{service_type}}</p>
+            <p class="title margin-minus margin-remove" *ngIf="is_lazy" ><ion-skeleton-text animated style="width: 50%;height: 15px;"></ion-skeleton-text></p>
+        </ion-col>
+        <ion-col size="6" class="margin-minus">
+            <p class="title-small margin-remove">Tanggal Order</p>
+            <p class="title margin-minus margin-remove" *ngIf="!is_lazy" >{{date_order}}</p>
+            <p class="title margin-minus margin-remove" *ngIf="is_lazy" ><ion-skeleton-text animated style="width: 90%;height: 15px;"></ion-skeleton-text></p>
+        </ion-col>
+        <ion-col size="6" class="margin-minus">
+            <p class="title-small margin-remove">Durasi</p>
+            <p class="title margin-minus margin-remove" *ngIf="!is_lazy" >{{qty}} Jam</p>
+            <p class="title margin-minus margin-remove" *ngIf="is_lazy" ><ion-skeleton-text animated style="width: 90%;height: 15px;"></ion-skeleton-text></p>
+        </ion-col>
+        <ion-col size="12" class="margin-minus">
+            <p class="title-small margin-remove">Alamat</p>
+            <p class="title margin-minus margin-remove" *ngIf="is_lazy" >
+                <ion-skeleton-text animated style="width: 80%;"></ion-skeleton-text>
+                <ion-skeleton-text animated style="width: 70%;"></ion-skeleton-text></p>
+            <p>
+                <!-- <a class="btn-manual" (click)="goMap(latitude,longitude)">Lihat Peta</a> -->
+            </p>
+        </ion-col>
+    </ion-row>
+    <ion-skeleton-text *ngIf="is_lazy" animated style="width: 100%;height: 7%;border-radius: 10px;"></ion-skeleton-text>
+    <ion-button *ngIf="status == 'Reserved' && !is_lazy"  (click)="goMap(latitude,longitude)" shape="round" expand="block">
+        <ion-icon slot="icon-only" name="play-outline" style="font-size: 1rem;margin-right: 5px;"></ion-icon>
+        Mulai Proses Order
+    </ion-button>
+    <ion-button *ngIf="status == 'On Going' && !is_lazy"  (click)="continue(latitude,longitude)" shape="round" expand="block" fill="outline">
+        <ion-icon slot="icon-only" name="play-outline" style="font-size: 1rem;margin-right: 5px;"></ion-icon>
+        Janjutkan Order
+    </ion-button>
+    <ion-button *ngIf="orderDetail && !is_lazy" expand="block" shape="round" (click)="Varify()">Verifikasi Lokasi</ion-button>
+</ion-content>

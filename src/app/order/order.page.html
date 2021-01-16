@@ -1,0 +1,77 @@
+<ion-header [translucent]="true">
+    <ion-toolbar>
+        <span slot="start">
+            <img class="icon-header" src="../../assets/images/tes-icon.png" />
+        </span>
+        <ion-title>EZKlin Mitra</ion-title>
+    
+    </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+    <ion-refresher slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
+    <ion-row>
+        <ion-col class="ion-no-padding">
+            <ion-list>
+                <ion-label *ngIf="!data || data.length === 0">
+                    <p style="text-align: center;">Data tidak tersedia.</p>
+                </ion-label>
+                <ion-item *ngFor="let item of data" (click)="goDetail(item.order_id)">
+                    <ion-avatar slot="start">
+                        <img src="../../assets/images/book-service.png">
+                    </ion-avatar>
+                    <ion-label style="margin: 11px 0px 0px;">
+                        <ion-grid>
+                            <ion-row>
+                                <ion-col size="12" class="ion-no-padding">
+                                    <h3 style="font-weight: bold;">{{item.number}}</h3>
+                                </ion-col>
+                            </ion-row>
+                            <ion-row>
+                                <ion-col size="12" class="ion-no-padding">
+                                    <h3>{{item.qty}} {{item.unit}}</h3>
+                                </ion-col>
+                            </ion-row>
+                            <ion-row>
+                                <ion-col size="8" class="ion-no-padding">
+                                    <h3>{{item.schedule}}</h3>
+                                </ion-col>
+                                <ion-col size="4" class="ion-no-padding">
+                                    
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                        <div *ngIf="item.status == 'Pending'" style="float: right;">
+                            <ion-chip color="medium" mode="ios" outline="false" class="chip-status">
+                                <ion-label>{{item.status}}</ion-label>
+                            </ion-chip>
+                        </div>
+                        <div *ngIf="item.status == 'Canceled'" style="float: right;">
+                            <ion-chip color="danger" mode="ios" outline="false" class="chip-status">
+                                <ion-label>{{item.status}}</ion-label>
+                            </ion-chip>
+                        </div>
+                        <div *ngIf="item.status == 'Reserved'" style="float: right;">
+                            <ion-chip color="warning" mode="ios" outline="false" class="chip-status">
+                                <ion-label>{{item.status}}</ion-label>
+                            </ion-chip>
+                        </div>
+                        <div *ngIf="item.status == 'Completed'" style="float: right;">
+                            <ion-chip color="success" mode="ios" outline="false" class="chip-status">
+                                <ion-label>{{item.status}}</ion-label>
+                            </ion-chip>
+                        </div>
+                        <div *ngIf="item.status == 'On Going'" style="float: right;">
+                            <ion-chip color="success" mode="ios" outline="false" class="chip-status">
+                                <ion-label>{{item.status}}</ion-label>
+                            </ion-chip>
+                        </div>
+                        
+                    </ion-label>
+                </ion-item>
+            </ion-list>
+        </ion-col>
+    </ion-row>
+</ion-content>

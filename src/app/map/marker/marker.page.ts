@@ -138,7 +138,9 @@ export class MarkerPage implements OnInit {
       pertner_id: this.user_data.partner_id,
       order_id : order_id,
       customer_id : c_id,
-      service : service
+      service : service,
+      first : false,
+      is_continue : false
     })
     
   }
@@ -269,12 +271,30 @@ export class MarkerPage implements OnInit {
     this.interval = setInterval(() => {
       // this.changeMarkerPosition(marker, map);
       // this.watchPosision()
-      // this.updatePositionSocket()
-    }, 12000);
+      this.updatePositionSocket()
+      let order_id = this.data_.order_id
+      let service = this.data_.service
+      let c_id = this.data_.customer_id
+      console.log('connecting socket',order_id);
+      this.socket.connect();
+      this.socket.emit('is-online', { 
+        pertner_id: this.user_data.partner_id,
+        order_id : order_id,
+        customer_id : c_id,
+        service : service,
+        first : false,
+        is_continue : false
+      })
+    }, 10000);
   }
 
   call(){
     window.open('tel:' + this.phone);
+  }
+
+  ionViewDidLeave() {
+    console.log('leaae');
+    clearInterval(this.interval);
   }
   
 

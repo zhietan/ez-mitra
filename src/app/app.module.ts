@@ -18,8 +18,8 @@ import { File } from '@ionic-native/file/ngx';
 import { Crop } from '@ionic-native/crop/ngx';
 
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
-// const config: SocketIoConfig = { url: 'http://127.0.0.1:3000', options: {} };
-const config: SocketIoConfig = { url: 'http://103.146.202.33:3000', options: {} };
+const config: SocketIoConfig = { url: 'http://127.0.0.1:3000', options: {} };
+// const config: SocketIoConfig = { url: 'http://103.146.202.33:3000', options: {} };
 
 @NgModule({
   declarations: [AppComponent],

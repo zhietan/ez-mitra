@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router, ActivatedRoute,NavigationExtras } from '@angular/router';
 import { ServiceService } from './../servive/service.service';
 import { Platform,NavController,LoadingController,ToastController, AlertController} from '@ionic/angular';
+import { Socket } from 'ngx-socket-io';
 
 @Component({
   selector: 'app-detailorder',
@@ -36,7 +37,8 @@ export class DetailorderPage {
     private serviceService : ServiceService,
     public loadingController : LoadingController,
     public nav : NavController,
-    private alertCtrl : AlertController
+    private alertCtrl : AlertController,
+    private socket : Socket
   ) {}
   ngOnInit() {
     // let dataStorage=JSON.parse(localStorage.getItem(this.TOKEN_KEY));
@@ -124,7 +126,8 @@ export class DetailorderPage {
           text : 'Ya',
           handler : ()=>{
             this.updateOrder(this.order_id,this.set.partner_id)
-            // this.nav.navigateForward(['marker',{lat : lat,long: lon, data : JSON.stringify(data_detail)}],);
+            this.connectSocket(true)
+            this.nav.navigateForward(['marker',{lat : lat,long: lon, data : JSON.stringify(data_detail)}],);
           }
         }
       ]
@@ -135,6 +138,40 @@ export class DetailorderPage {
     console.log('log lat',lat, lon);
     
 
+  }
+
+  connectSocket(first){
+    let order_id = this.order_id
+    let service = this.service_type
+    let c_id = this.set.customer_id
+    console.log('connecting socket',order_id);
+    this.socket.connect();
+    this.socket.emit('is-online', { 
+      pertner_id: this.set.customer_id,
+      order_id : order_id,
+      customer_id : c_id,
+      service : service,
+      first : first,
+      is_continue : false
+    })
+    
+  }
+
+  connectSocketContinue(){
+    let order_id = this.order_id
+    let service = this.service_type
+    let c_id = this.set.customer_id
+    console.log('connecting socket',order_id);
+    this.socket.connect();
+    this.socket.emit('is-online', { 
+      pertner_id: this.set.customer_id,
+      order_id : order_id,
+      customer_id : c_id,
+      service : service,
+      first : false,
+      is_continue : true
+    })
+    
   }
 
   updateOrder(order_id,partner_id){
@@ -202,7 +239,7 @@ export class DetailorderPage {
         {
           text : 'Ya',
           handler : ()=>{
-           
+           this.connectSocketContinue()
             this.nav.navigateForward(['marker',{lat : lat,long: lon, data : JSON.stringify(data_detail)}],);
           }
         }
